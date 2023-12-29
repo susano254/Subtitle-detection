@@ -47,42 +47,43 @@ for component in zip(contours, hierarchy):
     if currentHierarchy[3] < 0:
         rectangles.append((x, y, x+w, y+h));
 
-finished = False
-merged = False
-while not finished:
-    finished = True
-    for i in range(len(rectangles)):
-        if merged:
-            break
-        for j in range(len(rectangles)):
-            if i == j:
-                continue
+# finished = False
+# merged = False
+# while not finished:
+#     finished = True
+#     for i in range(len(rectangles)):
+#         if merged:
+#             break
+#         for j in range(len(rectangles)):
+#             if i == j:
+#                 continue
 
-            merged = False
-            if Helper.rectangles_overlap(rectangles[i], rectangles[j]):
-                temp = []
-                x1, y1, w1, h1 = rectangles[i]
-                x2, y2, w2, h2 = rectangles[j]
+#             merged = False
+#             if Helper.rectangles_overlap(rectangles[i], rectangles[j]):
+#                 # temp = []
+#                 # x1, y1, w1, h1 = rectangles[i]
+#                 # x2, y2, w2, h2 = rectangles[j]
+#                 # temp.append([x1, y1])
+#                 # temp.append([x1+w1, y1+h1])
+#                 # temp.append([x2, y2])
+#                 # temp.append([x2+w2, y2+h2])
+#                 # temp = np.array(temp)
+#                 # merged_rect = cv2.boundingRect(temp)
 
-                temp.append([x1, y1])
-                temp.append([x1+w1, y1+h1])
-                temp.append([x2, y2])
-                temp.append([x2+w2, y2+h2])
-                temp = np.array(temp)
 
-                merged_rect = cv2.boundingRect(temp)
+#                 merged_rect = Helper.merge(rectangles[i], rectangles[j])
 
-                if(i > j):
-                    rectangles.remove(rectangles[i])
-                    rectangles.remove(rectangles[j])
-                else:
-                    rectangles.remove(rectangles[j])
-                    rectangles.remove(rectangles[i])
+#                 if(i > j):
+#                     rectangles.remove(rectangles[i])
+#                     rectangles.remove(rectangles[j])
+#                 else:
+#                     rectangles.remove(rectangles[j])
+#                     rectangles.remove(rectangles[i])
 
-                rectangles.append(merged_rect)
-                merged = True
-                finished = False
-                break
+#                 rectangles.append(merged_rect)
+#                 merged = True
+#                 finished = False
+#                 break
 
 for rect in rectangles:
     x,y,w,h = rect
