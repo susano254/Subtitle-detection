@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import imutils
 
 from Helper import Helper
 
@@ -74,15 +73,13 @@ def merge_boxes(rectangles, merge_margin_x=10, merge_margin_y=1):
     boxes = rectangles.copy()
 
     finished = False;
-    highlight = [[0,0], [1,1]];
-    points = [[[0,0]]];
+
     while not finished:
         # set end con
         finished = True;
 
         # loop through boxes
-        index = 0;
-        while index < len(boxes):
+        for index in range(len(boxes)):
             # grab current box
             curr = boxes[index];
 
@@ -117,10 +114,6 @@ def merge_boxes(rectangles, merge_margin_x=10, merge_margin_y=1):
                 h -= 1
                 merged = [[x,y], [x+w, y+h]]
 
-                # highlights
-                highlight = merged[:]
-                points = con
-
                 # remove boxes from list
                 overlaps.sort(reverse = True);
                 for ind in overlaps:
@@ -131,8 +124,6 @@ def merge_boxes(rectangles, merge_margin_x=10, merge_margin_y=1):
                 finished = False;
                 break
 
-            # increment
-            index += 1
     return boxes
 
 word_boxes = merge_boxes(boxes)

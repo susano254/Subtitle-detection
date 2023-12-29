@@ -28,7 +28,6 @@ class Helper:
 
 
 
-# rect1 = (0, 0, 10, 10)
-# rect2 = (2, 2, 2, 2)
-# print(Helper.rectangles_overlap(rect1, rect2))
-# visualize_rectangles(rect1, rect2)
+rect1 = (0, 0, 10, 10)
+rect2 = (2, 2, 2, 2)
+print(Helper.rectangles_overlap(rect1, rect2))
