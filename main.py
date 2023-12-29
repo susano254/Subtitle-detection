@@ -10,10 +10,10 @@ frame = cv2.imread('frame.jpg')
 # Get the height and width of the frame
 height, width, _ = frame.shape
 
-# Define the region of interest (bottom 20% of the image)
-lower_part_start = int(height * (1 - 20 / 100))
-# Extract the bottom 20% of the frame
-roi = frame[lower_part_start:, :]
+# # Define the region of interest (bottom 20% of the image)
+# lower_part_start = int(height * (1 - 20 / 100))
+# # Extract the bottom 20% of the frame
+# roi = frame[lower_part_start:, :]
 
 
 # Convert to grayscale
@@ -40,50 +40,38 @@ cv2.waitKey(0)
 
 rectangles = [] 
 for component in zip(contours, hierarchy):
-    currentContour = component[0]
-    currentHierarchy = component[1]
-    x,y,w,h = cv2.boundingRect(currentContour)
+	currentContour = component[0]
+	currentHierarchy = component[1]
 
-    if currentHierarchy[3] < 0:
-        rectangles.append((x, y, x+w, y+h));
+	if currentHierarchy[3] < 0:
+		rectangles.append(cv2.boundingRect(currentContour));
 
-# finished = False
-# merged = False
-# while not finished:
-#     finished = True
-#     for i in range(len(rectangles)):
-#         if merged:
-#             break
-#         for j in range(len(rectangles)):
-#             if i == j:
-#                 continue
-
-#             merged = False
-#             if Helper.rectangles_overlap(rectangles[i], rectangles[j]):
-#                 # temp = []
-#                 # x1, y1, w1, h1 = rectangles[i]
-#                 # x2, y2, w2, h2 = rectangles[j]
-#                 # temp.append([x1, y1])
-#                 # temp.append([x1+w1, y1+h1])
-#                 # temp.append([x2, y2])
-#                 # temp.append([x2+w2, y2+h2])
-#                 # temp = np.array(temp)
-#                 # merged_rect = cv2.boundingRect(temp)
+rectangles = sorted(rectangles, key=lambda x: x[0])
 
 
-#                 merged_rect = Helper.merge(rectangles[i], rectangles[j])
+finished = False
+while not finished:
+	finished = True
+	merged = False
+	for i in range(len(rectangles)):
+		if merged:
+			break
+		for j in range(len(rectangles)):
+			if i == j:
+				continue
 
-#                 if(i > j):
-#                     rectangles.remove(rectangles[i])
-#                     rectangles.remove(rectangles[j])
-#                 else:
-#                     rectangles.remove(rectangles[j])
-#                     rectangles.remove(rectangles[i])
+			merged = False
+			if Helper.rectangles_overlap(rectangles[i], rectangles[j], 10):
+				merged_rect = Helper.merge(rectangles[i], rectangles[j])
 
-#                 rectangles.append(merged_rect)
-#                 merged = True
-#                 finished = False
-#                 break
+				Helper.replace(rectangles, i, j, merged_rect);
+
+				merged = True
+				finished = False
+				break
+
+
+
 
 for rect in rectangles:
     x,y,w,h = rect
