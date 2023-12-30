@@ -15,6 +15,11 @@ class Helper:
 		# Check for vertical overlap
 		vertical_overlap = (y1 < y2 + h2) and (y1 + h1 > y2)
 
+
+		height_difference = abs(rect1[1] - rect2[1])
+		if height_difference > vertical_margin: 
+			return False
+
 		# The rectangles overlap if there is both horizontal and vertical overlap
 		return horizontal_overlap and vertical_overlap
 
@@ -38,6 +43,60 @@ class Helper:
 			rectangles.remove(rectangles[i])
 
 		rectangles.append(rect)
+	
+
+	@staticmethod
+	def filter_bounding_boxes(boxes, horizontal_margin=10, vertical_margin=0):
+		rectangles = boxes.copy()
+		finished = False
+		while not finished:
+			finished = True
+			merged = False
+			for i in range(len(rectangles)):
+				if merged:
+					break
+				for j in range(len(rectangles)):
+					if i == j:
+						continue
+
+					merged = False
+					if Helper.rectangles_overlap(rectangles[i], rectangles[j], horizontal_margin=horizontal_margin, vertical_margin=vertical_margin):
+						merged_rect = Helper.merge(rectangles[i], rectangles[j])
+
+						Helper.replace(rectangles, i, j, merged_rect);
+
+						merged = True
+						finished = False
+						break
+		
+		return rectangles
+
+
+	def group_boxes_into_lines(boxes, max_height_difference=10):
+		lines = []
+		sorted_boxes = sorted(boxes, key=lambda box: (box[1], box[0]))  # Sort by y, then x
+
+		current_line = [sorted_boxes[0]]
+
+		for i in range(1, len(sorted_boxes)):
+			rect2 = sorted_boxes[i]
+
+			height_difference = abs(current_line[0][1] - rect2[1])
+
+			if height_difference <= max_height_difference:
+				current_line.append(sorted_boxes[i])
+			else:
+				lines.append(current_line)
+				current_line = [sorted_boxes[i]]
+
+		if current_line:
+			lines.append(current_line)
+
+		return lines
+
+
+
+
 
 
 
