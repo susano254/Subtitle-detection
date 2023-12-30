@@ -8,6 +8,7 @@ class Helper:
 		x2, y2, w2, h2 = rect2
 
 		w1 += horizontal_margin
+		h1 += vertical_margin
 
 		# Check for horizontal overlap
 		horizontal_overlap = (x1 < x2 + w2) and (x1 + w1 > x2)
@@ -93,14 +94,3 @@ class Helper:
 			lines.append(current_line)
 
 		return lines
-
-
-
-
-
-
-
-
-rect1 = (0, 0, 10, 10)
-rect2 = (2, 2, 2, 2)
-print(Helper.rectangles_overlap(rect1, rect2))
