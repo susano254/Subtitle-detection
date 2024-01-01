@@ -104,21 +104,6 @@ def subtitle_detect(frame):
     print(rectangles)
     exit()
 
-    # rectangles = sorted(rectangles, key=lambda x: x[0])
-    # filtered_rectangles = Helper.filter_bounding_boxes(rectangles, horizontal_margin=20, vertical_margin=15)
-
-    # lines = Helper.group_boxes_into_lines(filtered_rectangles, 10)
-    # for line in lines:
-    # 	line = Helper.filter_bounding_boxes(line, horizontal_margin=100)
-    # 	for rect in line:
-    # 		x,y,w,h = rect
-    # 		cv2.rectangle(frame, (x, y+lower_part_start), (x+w, y+h+lower_part_start), (0, 0, 250), 1);
-
-    # for rect in filtered_rectangles:
-    # 	x,y,w,h = rect
-    # 	cv2.rectangle(frame, (x+1, y+1 + lower_part_start), (x+w-1, y+h-1 + lower_part_start), (0,250,0), 1);
-
-
 
 # Read the frame
 frame = cv2.imread('frame2.jpg')
